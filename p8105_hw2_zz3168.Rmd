@@ -30,3 +30,16 @@ pols =
   
 ```
 
+We also clean the 538 `snp` data, which contains information related to Standard & Poor’s stock market index.
+
+```{r clean_538_snp}
+snp = 
+  read_csv("data/snp.csv") |> 
+  separate(date, into = c("month", "day", "year"), convert = TRUE) |> 
+  arrange(year, month) |> 
+  mutate(month = month.name[month]) |>
+  select(year, month, close)
+  
+```
+
+we tidy the `unemployment` data so that it can be merged with the `pols` and `snp` datasets.
