@@ -55,3 +55,74 @@ unemployment =
   select(year, month, unemployment)
   
 ```
+
+we merge the three datasets
+
+```{r merge_538}
+data_problem1 =
+  left_join(pols, snp) |> 
+  left_join(x = _, y = unemployment)
+
+str(data_problem1)
+```
+There are some `NA` values in the `close` and `unemployment` variables, which indicate that the value of these variables are missing at those locations.
+
+In the 538 datasets, the `pols` data has `r ncol(pols)` variables and `r nrow(pols)` observations. 
+
+### Problem 2
+
+```{r}
+mr_trash_wheel =
+  read_excel("data/202309 Trash Wheel Collection Data.xlsx", 
+             sheet = "Mr. Trash Wheel",
+             range = "A2:N549") |> 
+  janitor::clean_names() |> 
+  mutate(
+    homes_powered = weight_tons * 500/30,
+    mr_trash_wheel = "Mr. Trash Wheel",
+    year = as.numeric(year)
+    )
+
+pr_trash_wheel =
+  read_excel("data/202309 Trash Wheel Collection Data.xlsx", 
+             sheet = "Professor Trash Wheel",
+             range = "A2:M108") |> 
+  janitor::clean_names() |> 
+  mutate(homes_powered = weight_tons * 500/30,
+          mr_trash_wheel = "Professor Trash Wheel"
+        )
+
+gwynnda_trash_wheel =
+  read_excel("data/202309 Trash Wheel Collection Data.xlsx", 
+             sheet = "Gwynnda Trash Wheel",
+             range = "A2:L157") |> 
+  janitor::clean_names() |> 
+  mutate(homes_powered = weight_tons * 500/30,
+         mr_trash_wheel = "Gwynnda Trash Wheel"
+        
+         )
+```
+
+#combine the data
+
+```{r}
+combine_data =
+  bind_rows(mr_trash_wheel, pr_trash_wheel, gwynnda_trash_wheel)
+
+```
+
+
+
+
+### Problme 3 
+```{r}
+
+
+  
+  
+  
+   
+
+
+```
+
