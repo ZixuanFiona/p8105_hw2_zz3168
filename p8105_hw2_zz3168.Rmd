@@ -116,7 +116,18 @@ combine_data =
 
 ### Problme 3 
 ```{r}
-
+baseline_data =
+  read_csv("data/data_mci/MCI_baseline.csv") |> 
+  janitor::clean_names() |> 
+  mutate(
+    sex = 
+      case_match(
+        sex, 
+        1 ~ "male", 
+        2 ~ "female"),
+    sex = as.factor(sex),
+    apoe4 = 
+      
 
   
   
