@@ -102,6 +102,7 @@ gwynnda_trash_wheel =
         
          )
 ```
+According to the three datasets, we found that the total weight of trash collected by Professor Trash Wheel is `r sum(pr_trash_wheel$weight_tons)`.
 
 #combine the data
 
@@ -132,12 +133,12 @@ baseline_data =
         1 ~ "apoe4_carrier",
         0 ~ "apoe4_non_carrier"),
       apoe4 = as.factor(apoe4))
-  
-     
-  
+
 
 
 ```
+
+
 
 ##questions
 ```{r}
@@ -180,20 +181,18 @@ amyloid_data =
 
 ```
 
-
+#check whether some participants appear in only the baseline or amyloid datasets
 ```{r}
-mci_all = 
-  inner_join(
+mci_all = inner_join(
     mci_develop, amyloid_data, by = "id"
   )
 ```
 
 According to the two datasets, we found that there are  `r mci_all |> distinct(id) |> nrow()` participants appear in both datasets. 
 
-#check whether some participants appear in only the baseline or amyloid datasets
 
 ```{r}
-
+write.csv(combine_data)
 ```
 
 
