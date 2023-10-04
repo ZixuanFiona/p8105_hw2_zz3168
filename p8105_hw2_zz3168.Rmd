@@ -102,7 +102,7 @@ gwynnda_trash_wheel =
         
          )
 ```
-According to the three datasets, we found that the total weight of trash collected by Professor Trash Wheel is `r sum(pr_trash_wheel$weight_tons)` and  the total number of cigerette butts collected by Gwynnda in July of 2021 is `r sum(gwynnda_trash_wheel$cigarette_butts[(gwynnda_trash_wheel$date >= "2021-07-01") & (gwynnda_trash_wheel$date <= "2021-07-31")])` . 
+According to the three datasets, we found that the total weight of trash collected by Professor Trash Wheel is `r sum(pr_trash_wheel$weight_tons)` tons and  the total number of cigerette butts collected by Gwynnda in July of 2021 is `r sum(gwynnda_trash_wheel$cigarette_butts[(gwynnda_trash_wheel$date >= "2021-07-01") & (gwynnda_trash_wheel$date <= "2021-07-31")])` . 
 
 #combine the data
 
@@ -112,7 +112,12 @@ combine_data =
 
 ```
 
+```{r}
+str(combine_data)
+```
+
 According to the three datasets, we collect and anlysis the data from the Trash Wheel Collection data excel. There have Mr. Trash wheel, Professor Trash Wheel and Gwynnda Trash Wheel. The dataset comprises a total of `r nrow(combine_data)` observations
+
 
 
 ### Problme 3 
@@ -160,7 +165,7 @@ mci_develop =
   filter(!(current_age > age_at_onset |is.na(age_at_onset)))
 ```
 
-According to the Baseline dataset, we could see that there have `r nrow (mci_baseline_participant)` participants were recruited. And based on the current age and age on set, we found `r mci_baseline_participant |> filter(current_age < age_at_onset) |> nrow()` develop MCI. And the average baseline age is `r baseline_data |> pull(current_age) |> mean() |> round(2)`years old. In the dataset, we found that `r filter(baseline_data, sex == "female", apoe4 =="apoe4_carrier") |> nrow()/nrow(filter(mci_baseline_participant, sex == "female")) *100`% women in the study are APOE4 carriers.
+According to the Baseline dataset, we could see that there have `r nrow (mci_baseline_participant)` participants were recruited. And based on the current age and age on set, we found `r mci_baseline_participant |> filter(current_age < age_at_onset) |> nrow()` develop MCI. And the average baseline age is `r mci_baseline_participant |> pull(current_age) |> mean() |> round(2)`years old. In the dataset, we found that `r filter(baseline_data, sex == "female", apoe4 =="apoe4_carrier") |> nrow()/nrow(filter(mci_baseline_participant, sex == "female")) *100`% women in the study are APOE4 carriers.
 
 #Import clean tidy the amyloid
 
