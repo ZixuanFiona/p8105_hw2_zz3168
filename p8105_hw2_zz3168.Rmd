@@ -75,7 +75,7 @@ In the 538 datasets, the `pols` data has `r ncol(pols)` variables and `r nrow(po
 mr_trash_wheel =
   read_excel("data/202309 Trash Wheel Collection Data.xlsx", 
              sheet = "Mr. Trash Wheel",
-             range = "A2:N549") |> 
+             range = "A2:N586") |> 
   janitor::clean_names() |> 
   mutate(
     homes_powered = weight_tons * 500/30,
@@ -139,7 +139,7 @@ baseline_data =
 
 ```
 
-## questions
+##questions
 ```{r}
 mci_baseline_participant = 
   mutate( 
@@ -153,8 +153,48 @@ mci_baseline_participant =
   
 ```
 
-According to the Baseline dataset, we could see that there have `r nrow(baseline_data)` participants were recruited. And based on the current age and age on set, we found `r mci_baseline_participant |> filter(current_age < age_at_onset) |> nrow()` develop MCI. And the average baseline age is `r baseline_data |> pull(current_age) |> mean() |> round(2)`years old. In the dataset, we found that `r baseline_data |> filter(sex == "female", apoe4 =="apoe4_carrier") |> nrow()/nrow(baseline_data) *100`% women in the study are APOE4 carriers.
+```{r}
+mci_develop =
+  mci_baseline_participant |> 
+  filter(!(current_age > age_at_onset |is.na(age_at_onset)))
+```
 
+According to the Baseline dataset, we could see that there have `r nrow (mci_baseline_participant)` participants were recruited. And based on the current age and age on set, we found `r mci_baseline_participant |> filter(current_age < age_at_onset) |> nrow()` develop MCI. And the average baseline age is `r baseline_data |> pull(current_age) |> mean() |> round(2)`years old. In the dataset, we found that `r filter(baseline_data, sex == "female", apoe4 =="apoe4_carrier") |> nrow()/nrow(filter(mci_baseline_participant, sex == "female")) *100`% women in the study are APOE4 carriers.
+
+#Import clean tidy the amyloid
+
+```{r}
+amyloid_data =
+  read_csv("data/data_mci/mci_amyloid.csv", skip = 1) |> 
+  janitor::clean_names() |> 
+  rename(
+     id = study_id,
+  ) |> 
+  pivot_longer(
+    time_2:time_8,
+    names_to = "time_combine",
+    values_to = "year"
+  )
+  
+  
+
+```
+
+
+```{r}
+mci_all = 
+  inner_join(
+    mci_develop, amyloid_data, by = "id"
+  )
+```
+
+According to the two datasets, we found that there are  `r mci_all |> distinct(id) |> nrow()` participants appear in both datasets. 
+
+#check whether some participants appear in only the baseline or amyloid datasets
+
+```{r}
+
+```
 
 
 
