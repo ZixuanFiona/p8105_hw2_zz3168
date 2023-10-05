@@ -186,13 +186,29 @@ amyloid_data =
 ```
 
 #check whether some participants appear in only the baseline or amyloid datasets
+
+
+
 ```{r}
 mci_all = inner_join(
-    mci_develop, amyloid_data, by = "id"
+    mci_baseline_participant, amyloid_data, by = "id"
   )
 ```
 
 According to the two datasets, we found that there are  `r mci_all |> distinct(id) |> nrow()` participants appear in both datasets. 
+
+```{r}
+mci_distinct = mci_all |> 
+  distinct(id)
+
+baseline_only =
+  anti_join(mci_baseline_participant, mci_distinct, by = "id")
+
+amyloid_only =  
+ anti_join(amyloid_data, mci_distinct, by = "id")
+  
+```
+In the datasets, there are `r nrow(baseline_only)` participants which only in the Baseline dataset. and `r nrow(amyloid_only)/4` participants which only in Amyloid dataset.
 
 
 ```{r}
